@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birth Weight Prediction</title>
+    <!-- Import rounded font for a softer look -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Import Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 1. Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif; /* Softer font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Cute Polka Dot Background */
+            background-color: #eefbfb;
+            background-image: radial-gradient(#b8e9e9 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Main Form Container (The Card) */
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(76, 161, 175, 0.15);
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            border-top: 8px solid #ff8c94; /* Soft Salmon Accent */
+        }
+
+        /* Graphic Header Section */
+        .graphic-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .graphic-header svg {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Typography */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        /* Form Elements Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Adds space between input groups */
+        }
+
+        /* Input Group with Icons */
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%; /* Start at 50% top */
+            transform: translateY(-50%); /* Move up by half its height to center */
+            color: #ff8c94; /* Icon Color */
+            font-size: 1.1rem;
+            /* Ensure icon doesn't shift with label */
+            margin-top: 14px; /* Offset for the label height */
+        }
+
+        /* Adjust icon position specifically because we have labels outside */
+        .input-group-wrapper {
+            position: relative;
+        }
+
+        .input-group-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8e9eab;
+            transition: color 0.3s ease;
+        }
+
+        input:focus + .input-icon {
+            color: #ff8c94;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+            margin-left: 4px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 15px 14px 45px; /* Left padding makes room for icon */
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.3s ease;
+            background-color: #fcfcfc;
+        }
+
+        /* Input Focus State */
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ff8c94; /* Salmon highlight */
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 140, 148, 0.15);
+        }
+
+        /* Button Styling */
+        button {
+            margin-top: 10px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff8c94, #ffaaa5);
+            color: white;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 140, 148, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 148, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Handling the <br> tags */
+        form br {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        
+        <!-- Graphic Header with Inline SVG Baby -->
+        <div class="graphic-header">
+            <!-- Cute Baby Face SVG -->
+            <svg viewBox="0 0 512 512" fill="#ff8c94">
+                <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.3-208-208S141.3 48 256 48s208 93.3 208 208-93.3 208-208 208z" fill="#fff" opacity="0.5"/>
+                <circle cx="256" cy="256" r="200" fill="#ffe0bd"/> <!-- Face Skin -->
+                <path d="M160 224c0-17.7 14.3-32 32-32s32 14.3 32 32-14.3 32-32 32-32-14.3-32-32zM288 224c0-17.7 14.3-32 32-32s32 14.3 32 32-14.3 32-32 32-32-14.3-32-32z" fill="#5d4037"/> <!-- Eyes -->
+                <path d="M340 320c-14.8 26.7-46.1 48-84 48s-69.2-21.3-84-48" stroke="#d87a80" stroke-width="15" stroke-linecap="round" fill="none"/> <!-- Smile -->
+                <path d="M256 48c-60 0-110 35-130 85 20-15 50-25 80-25 40 0 70 20 90 50 10-30 40-50 90-50 30 0 60 10 80 25-20-50-70-85-130-85z" fill="#ff8c94"/> <!-- Hair/Hat -->
+                <circle cx="140" cy="280" r="25" fill="#ffccbc" opacity="0.6"/> <!-- Blush L -->
+                <circle cx="372" cy="280" r="25" fill="#ffccbc" opacity="0.6"/> <!-- Blush R -->
+            </svg>
+        </div>
+
+        <h1>Baby Weight Predictor</h1>
+        <p class="subtitle">Enter the details below to get an estimate</p>
+        
+        <form action="/predict" method="POST">
+            
+            <div class="form-group">
+                <label for="gestation">gestation (weeks)</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input id="gestation" name="gestation" type="number" placeholder="e.g. 40" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="parity">parity (Previous Births)</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-baby"></i>
+                    <input id="parity" name="parity" type="number" placeholder="e.g. 0, 1, 2..." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Mother's Age</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-heart"></i>
+                    <input id="age" name="age" type="number" placeholder="Years" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="height">Mother's Height</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-ruler-vertical"></i>
+                    <input id="height" name="height" type="number" placeholder="Inches or cm" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="weight">Mother's Weight</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-weight-scale"></i>
+                    <input id="weight" name="weight" type="number" placeholder="lbs or kg" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="smoke">Smoker?</label>
+                <div class="input-group-wrapper">
+                    <i class="fas fa-smoking-ban"></i>
+                    <input id="smoke" name="smoke" type="number" placeholder="0 for No, 1 for Yes" required>
+                </div>
+            </div>
+
+            <button type="submit">
+                <i class="fas fa-wand-magic-sparkles"></i> Predict Weight
+            </button>
+        </form>
+    
+        <h3>Predicted Birth Weight : {{prediction}}</h3>
+    </div>
+
+</body>
+</html>
